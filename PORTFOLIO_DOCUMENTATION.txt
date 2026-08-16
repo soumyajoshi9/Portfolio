@@ -1,0 +1,1948 @@
+============================================================
+SOUMYA JOSHI — PORTFOLIO WEBSITE
+COMPLETE PROJECT DOCUMENTATION
+============================================================
+
+This file explains exactly how your portfolio website is built,
+where every piece of content lives, and how to change, extend,
+run, and deploy it — using the ACTUAL files in this project.
+
+This is a 4-file, no-build static website. There is no React,
+no TypeScript, no Tailwind, no npm packages, and no backend.
+Everywhere this documentation gives a file path or command, it
+is the real one used by this project, not a generic example.
+
+
+============================================================
+1. PROJECT OVERVIEW
+============================================================
+
+WHAT THIS PROJECT IS
+---------------------
+A single-page personal portfolio website for Soumya Joshi,
+built from her resume. It presents her education, skills,
+projects, and certifications to recruiters and collaborators.
+
+WHAT THE WEBSITE DOES
+----------------------
+- Displays a hero introduction with an animated terminal panel
+- Shows an About section with a short bio and stat highlights
+- Lists technical skills grouped into categories
+- Shows 3 projects as cards, filterable by category
+- Shows 9 certifications as cards, filterable by category, each
+  opening a details modal
+- Shows an education timeline
+- Shows extracurricular activities
+- Provides a contact form with client-side validation
+- Provides a "Download Resume" button linked to a real PDF
+- Supports a dark/light theme toggle
+- Is fully responsive, with a mobile hamburger menu
+
+MAIN TECHNOLOGIES USED
+------------------------
+- HTML5            (structure)
+- CSS3              (all styling — plain CSS, no framework)
+- Vanilla JavaScript (all behavior — no framework, no library)
+- Google Fonts CDN  (IBM Plex Mono + Inter, loaded via a <link>
+                      tag in index.html)
+
+There is NO React, NO Vue, NO TypeScript, NO Tailwind, NO
+build tool (no Webpack/Vite), and NO package.json in this
+project. It runs by opening index.html directly, or by serving
+the folder with any static file server.
+
+IS THIS FRONTEND-ONLY OR FULL-STACK?
+--------------------------------------
+Frontend-only. There is no backend, no API, no database, and no
+authentication anywhere in this project. All content (projects,
+certificates, skills, education) is stored as plain JavaScript
+data inside data.js and rendered into the page by script.js
+when the page loads.
+
+ARCHITECTURE OVERVIEW (actual structure of this project)
+-----------------------------------------------------------
+portfolio/
+│
+├── index.html      <- Page structure (all sections, empty containers
+│                      that get filled in by script.js)
+├── style.css       <- All visual styling, color tokens, layout,
+│                      responsiveness, animations
+├── script.js       <- All behavior: reads data.js and renders it,
+│                      handles nav, theme, filters, modal, form
+├── data.js         <- All content: profile, skills, projects,
+│                      certificates, education, activities
+│
+└── assets/
+    └── Soumya_Joshi_Resume.pdf   <- the real, downloadable resume
+
+
+============================================================
+2. TECHNOLOGIES USED (DETAILED)
+============================================================
+
+HTML5
+-----
+Purpose: Defines the page structure and the empty containers
+(like <div id="projectGrid"></div>) that JavaScript fills with
+content at runtime.
+Used in: index.html (the only HTML file in the project).
+Do I need to learn it to make basic changes? No — for adding
+projects, certificates, skills, etc. you only edit data.js.
+You only touch index.html if you're adding a brand-new SECTION
+(see Section 22).
+
+CSS3 (plain CSS, using CSS Custom Properties / "design tokens")
+-----------------------------------------------------------------
+Purpose: All colors, fonts, spacing, layout, responsive
+breakpoints, hover effects, and animations.
+Used in: style.css (the only stylesheet).
+Why "design tokens"? At the top of style.css, under the
+":root { ... }" selector, colors and fonts are defined once as
+variables (e.g. "--accent: #58e6c9;") and reused everywhere,
+so changing one line changes the color across the whole site.
+Do I need to learn it to make basic changes? Only if you want
+to change colors, fonts, spacing, or layout. Not needed for
+adding text-only content.
+
+Vanilla JavaScript (no framework)
+-----------------------------------
+Purpose: Reads the arrays/objects in data.js and turns them into
+HTML on the page; also handles all interactivity (mobile menu,
+theme toggle, project/certificate filtering, the certificate
+modal, scroll-triggered reveal animations, and contact form
+validation).
+Used in: script.js (all logic) and data.js (all content, which
+script.js depends on).
+Do I need to learn it to make basic changes? No — data.js uses
+plain, readable JavaScript objects and arrays that follow a
+repeating pattern. You can add a new certificate or project by
+copying an existing entry and changing the values, without
+writing any new logic. You would only need to read script.js if
+you want to change HOW something behaves (not what it says).
+
+Google Fonts (CDN, no install required)
+------------------------------------------
+Purpose: Loads two typefaces used across the site — "IBM Plex
+Mono" (headings, labels, code-styled text) and "Inter" (body
+text).
+Used in: A <link> tag inside the <head> of index.html:
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+Why is it needed? Without an internet connection, this link
+won't load, and the browser will fall back to the system fonts
+listed in style.css (e.g. Menlo, "Segoe UI") — the site still
+works, it just looks slightly different.
+Do I need to learn it? No.
+
+
+============================================================
+3. HOW TO INSTALL AND RUN THE PROJECT
+============================================================
+
+Because this is a plain HTML/CSS/JS project with NO build step
+and NO dependencies, there is nothing to "install." You have
+two options to run it.
+
+OPTION A — Just open the file (simplest)
+-------------------------------------------
+Step 1: Locate the "portfolio" folder on your computer.
+Step 2: Double-click index.html, or right-click it and choose
+"Open with" your browser (Chrome, Edge, Firefox, etc.).
+Step 3: The site opens directly — that's it.
+
+Note: with this method, the URL in your browser will look like
+"file:///C:/.../portfolio/index.html" instead of "localhost."
+Everything works the same way.
+
+OPTION B — Run a local server (recommended while editing)
+--------------------------------------------------------------
+Running a local server avoids occasional browser restrictions
+on "file://" pages and is closer to how the live site will
+behave.
+
+Step 1 — Install required software
+You only need ONE of the following (pick whichever you already
+have):
+  - Python 3        (verify with: python3 --version)
+  - Node.js          (verify with: node --version)
+  - VS Code with the "Live Server" extension
+
+You do NOT need npm packages, a package.json, or Git to run
+this project locally — those are only relevant if you later
+choose to manage the project with GitHub (see Section 31).
+
+Step 2 — Open the project
+Open the "portfolio" folder in VS Code:
+  File > Open Folder... > select the "portfolio" folder
+
+Step 3 — Start a local server
+If you have Python 3, run this from inside the "portfolio"
+folder:
+  python3 -m http.server 8080
+
+If you have Node.js installed, you can instead run:
+  npx serve .
+
+If you're using VS Code, you can instead right-click
+index.html and choose "Open with Live Server" (requires
+installing that extension once from the Extensions panel).
+
+Step 4 — Open the website
+Go to this address in your browser:
+  http://localhost:8080
+
+(If you used "npx serve ." or Live Server, use the URL that
+tool prints in the terminal — it may use a different port
+number.)
+
+There is no "install dependencies" step and no "build" step —
+this project has neither a package.json nor any dependencies
+to install.
+
+
+============================================================
+4. COMPLETE PROJECT STRUCTURE
+============================================================
+
+portfolio/
+│
+├── index.html                          Page structure, all sections
+├── style.css                           All visual styling
+├── script.js                           All page behavior/rendering
+├── data.js                             All editable content
+│
+└── assets/
+    └── Soumya_Joshi_Resume.pdf         The downloadable resume
+
+That is the entire project. There is no "src/" folder, no
+"public/" folder, no "components/" folder, and no config files
+(no package.json, no tsconfig.json, no tailwind.config.js) —
+this project intentionally uses the simplest possible structure.
+
+FILE-BY-FILE EXPLANATION
+--------------------------
+
+File: index.html
+Purpose: Defines every section of the page (navbar, hero, about,
+skills, projects, certifications, education, contact, footer,
+and the certificate modal) as HTML markup. Most sections contain
+an empty container with an id (like id="projectGrid") that
+script.js fills in with content generated from data.js.
+When should I modify it? Only when adding/removing a whole
+SECTION, changing the navigation menu items, or editing text
+that isn't pulled from data.js (like the hero's introductory
+paragraph, or labels).
+What can I safely change? Static text between HTML tags, the
+order of <section> blocks, and navigation link labels.
+
+File: style.css
+Purpose: Every visual rule in the site — the color palette
+(defined once at the top as CSS variables), fonts, spacing,
+card designs, the navbar, buttons, the timeline, the modal, all
+responsive breakpoints, and all animations.
+When should I modify it? When you want to change colors, fonts,
+spacing, or layout, or adjust how something looks on mobile.
+What can I safely change? The CSS variable values at the top
+under ":root { ... }" and "[data-theme='light'] { ... }" are the
+safest and highest-impact changes (see Section 8).
+
+File: script.js
+Purpose: Contains all logic. On page load, it reads the data
+from data.js and injects it into the empty containers in
+index.html as HTML. It also wires up all interactive behavior:
+mobile menu, theme toggle, active-nav-link highlighting,
+project/certificate category filters, the certificate modal,
+scroll-reveal animations, and contact-form validation.
+When should I modify it? Only if you want to change HOW
+something behaves — for example, changing what counts as a
+"valid" email in the contact form, or changing how many
+characters trigger a paragraph break in the About section. You
+do NOT need to touch this file to add/edit/remove projects,
+certificates, skills, education entries, or contact details.
+What can I safely change? Very little needs to change here for
+normal content updates. If you do edit it, change one small
+thing at a time and refresh the page to check for errors.
+
+File: data.js
+Purpose: This is the ONLY file you need to edit for almost all
+content updates. It defines these JavaScript variables:
+  - PROFILE       name, title, contact info, social links,
+                   resume file path, bio text, stat numbers
+  - SKILLS         array of skill categories and their items
+  - PROJECTS       array of project objects
+  - CERTIFICATES   array of certificate objects
+  - EDUCATION      array of education entries
+  - ACTIVITIES     array of extracurricular activity entries
+When should I modify it? Any time you want to add, edit, remove,
+or reorder a project, certificate, skill, education entry, or
+activity, or change your name/bio/contact details/social links.
+What can I safely change? Everything in this file is designed
+to be edited safely, as long as you follow the existing pattern
+for each entry (see Sections 6, 7, and 11 below).
+
+Folder: assets/
+Purpose: Holds files that are downloaded or displayed directly,
+as opposed to text content. Currently contains only the resume
+PDF. This is also where you should create a "certificates/"
+sub-folder if you start adding certificate image or PDF files
+(see Section 8) — that sub-folder does not exist yet.
+
+File: assets/Soumya_Joshi_Resume.pdf
+Purpose: The actual file served by the "Download Resume" button.
+
+
+============================================================
+5. HOW TO CHANGE PERSONAL INFORMATION
+============================================================
+
+Almost everything in this section lives in ONE place:
+data.js, inside the PROFILE object near the top of the file.
+
+NAME
+----
+File: data.js
+Find:      name: "Soumya Joshi",
+Replace with your name, keeping the quotes:
+  name: "Your Name",
+Note: this value is not currently displayed as separate text
+anywhere else — the hero heading text itself ("Hi, I'm Soumya
+Joshi") is written directly in index.html inside the <h1> tag,
+so to change the name shown in the hero heading, also edit:
+File: index.html
+Find:
+  <h1>Hi, I'm <span class="accent">Soumya Joshi</span></h1>
+
+PROFESSIONAL TITLE (shown under the hero heading)
+----------------------------------------------------
+File: data.js
+Find:      title: "CS Undergraduate — DSA, Systems & Backend Foundations",
+Replace with your new title, keeping the quotes.
+This value is inserted automatically into the page by script.js
+(the renderHeroRole function), so no other file needs to change.
+
+ABOUT SECTION TEXT
+---------------------
+File: data.js
+Find:      summary: "I'm a Computer Science undergraduate at ..."
+Replace the whole quoted sentence with your own bio. Keep it as
+one continuous string. script.js automatically splits it into
+paragraphs, so you don't need to add line breaks yourself.
+
+EMAIL
+-----
+File: data.js
+Find:      email: "Soumya.joshii09@gmail.com",
+Replace with your email, keeping the quotes.
+This single value is used automatically for: the contact section
+email link, the mailto icon link, and the footer email icon.
+
+PHONE NUMBER
+------------
+File: data.js
+Find:      phone: "+91 8305696906",
+Replace with your number, keeping the "+" and spacing if you
+want it displayed the same way (this exact string is shown to
+visitors and used to build the "tel:" link).
+
+LOCATION
+--------
+File: data.js
+Find:      location: "Bhopal, Madhya Pradesh, India",
+Replace with your location, keeping the quotes.
+
+GITHUB
+------
+File: data.js
+Find:      github: "https://github.com/soumyajoshi9",
+Replace with your full GitHub profile URL.
+Example before:
+  github: "https://github.com/soumyajoshi9",
+Example after:
+  github: "https://github.com/yourusername",
+This one value automatically updates: the GitHub icon in the
+hero, the "See more on GitHub" button under Projects, the
+contact section GitHub row, and the footer GitHub icon.
+
+LINKEDIN
+--------
+File: data.js
+Find:      linkedin: "https://linkedin.com/in/soumya-joshi-a7150632b",
+Replace with your LinkedIn URL, keeping the quotes.
+
+OTHER SOCIAL MEDIA (X / Twitter, Instagram)
+-----------------------------------------------
+File: data.js
+Find:
+  twitter: "https://x.com/soumyajoshii9",
+  instagram: "https://instagram.com/soumyajoshii9",
+Replace each with your own URL.
+IMPORTANT: "twitter" and "instagram" are currently stored in
+data.js but are NOT yet displayed anywhere on the page (there is
+no Instagram icon rendered, and Twitter is only linked in the
+hero's social icon row via a hardcoded URL in index.html, not
+pulled from data.js). To fully connect these, see Section 24.
+
+PROFILE PHOTO
+--------------
+There is currently no profile photo anywhere in this project —
+the hero section uses an animated terminal panel instead of a
+photo, and no <img> tag or photo field exists in data.js or
+index.html. To add one, see Section 13.
+
+RESUME
+------
+See Section 17 (dedicated section below).
+
+HERO SECTION (headline, intro paragraph, buttons)
+-----------------------------------------------------
+File: index.html
+The heading, hero paragraph, and button labels are written
+directly as HTML text inside the <section class="hero" id="home">
+block. Find the text you want to change and edit it directly
+between the tags.
+
+FOOTER
+------
+File: index.html
+The footer tagline ("CS undergraduate building backend systems,
+one data structure at a time.") is written directly inside the
+<footer> block. Edit that text directly.
+The footer's social icons and copyright year are generated
+automatically by script.js from PROFILE in data.js and the
+current date — you do not need to edit these by hand.
+
+
+============================================================
+6. HOW TO UPLOAD / ADD CERTIFICATES
+============================================================
+
+This project currently stores certificate INFORMATION (title,
+issuer, category) for 9 certificates in data.js, but does NOT
+yet have actual certificate image or PDF files attached to any
+of them — every certificate entry currently has "image: null".
+Below is the complete process for adding a real certificate file
+and connecting it to a certificate card.
+
+Example scenario: you have a file named "Python_Certificate.pdf"
+you want to add, for a certificate titled "Python Programming,"
+issued by "XYZ Institute," in the "Programming" category.
+
+Step 1 — Where to place the certificate file
+The "assets/certificates/" folder does not exist yet in this
+project — you need to create it first. Inside the "assets"
+folder, create a new folder named "certificates", then place
+your file inside it:
+  assets/certificates/python-programming.pdf
+
+Step 2 — Recommended image format (if you want a visual preview)
+If you have (or can create) an image version of the certificate
+(a screenshot or exported JPG/PNG works well), place that image
+in the same folder, for example:
+  assets/certificates/python-programming.jpg
+This project's certificate modal is built to display an <img>
+tag when an "image" path is provided in data.js (see the
+openCertModal function in script.js) — a PDF alone will not
+display inline, only an image will.
+
+Step 3 — How to name the certificate file
+Use lowercase letters and hyphens instead of spaces, matching
+the style already used in this project (kebab-case), for
+example: "python-programming.pdf", not "Python Certificate.pdf".
+This avoids broken links caused by spaces or capitalization
+mismatches in file paths.
+
+Step 4 — Where to add the certificate information
+File: data.js
+Find the CERTIFICATES array (search for "const CERTIFICATES").
+Add a new object to the array, following the exact same shape
+as the existing entries. Example:
+
+  {
+    title: "Python Programming",
+    issuer: "XYZ Institute",
+    category: "Programming",
+    date: "August 2026",
+    credentialId: "ABC123",
+    verificationUrl: "https://example.com/verify/123",
+    image: "assets/certificates/python-programming.jpg",
+  },
+
+Step 5 — How this connects to the certificate card
+You don't need to touch script.js or index.html. The
+renderCerts() function in script.js automatically loops over
+every object in the CERTIFICATES array and creates a card for
+each one, using its "title", "issuer", and "category" values.
+
+Step 6 — Adding the verification URL
+Set the "verificationUrl" field to the real link where someone
+can confirm the certificate is genuine. If you don't have one,
+leave it as "null" (no quotes) rather than inventing one — the
+modal only shows a "Verify Credential" button when this field is
+not null (see openCertModal in script.js).
+
+Step 7 — Adding the credential ID
+Set the "credentialId" field to the ID text shown on your
+certificate, as a quoted string. If you don't have one, leave it
+as "null".
+
+Step 8 — Adding the certificate category
+Set "category" to a short label such as "Programming",
+"Cybersecurity", "AI / ML", or "Web Development". This value is
+what powers the filter buttons above the certificate grid — the
+initCertFilters() function in script.js automatically builds one
+filter button per unique category found in the CERTIFICATES
+array, so a brand-new category will automatically get its own
+filter button with no extra code changes.
+
+Step 9 — How to verify it appears correctly
+Save data.js, then open (or refresh) index.html in your browser
+(see Section 3 for how to run the project). Scroll to the
+Certifications section, confirm the new card appears, click it,
+and confirm the modal opens with the correct title, issuer, and
+(if provided) image and Verify Credential button.
+
+COMPLETE EXAMPLE (data + explanation together)
+--------------------------------------------------
+Certificate:        Python Programming
+Issuer:              XYZ Institute
+Date:                August 2026
+Category:            Programming
+Certificate file:    assets/certificates/python-programming.pdf
+Certificate image:   assets/certificates/python-programming.jpg
+Verification URL:    https://example.com/verify/123
+
+Code added to the CERTIFICATES array in data.js:
+
+  {
+    title: "Python Programming",
+    issuer: "XYZ Institute",
+    category: "Programming",
+    date: "August 2026",
+    credentialId: "ABC123",
+    verificationUrl: "https://example.com/verify/123",
+    image: "assets/certificates/python-programming.jpg",
+  },
+
+
+============================================================
+7. HOW TO ADD CERTIFICATE IMAGES
+============================================================
+
+Supported formats: any format a browser can display in an <img>
+tag — JPG, PNG, or WEBP are recommended.
+Recommended dimensions: roughly 800–1200px on the longer side is
+plenty for the modal preview (the modal caps preview height at
+320px, so very large images are unnecessary).
+Recommended file size: keep it under ~500KB per image so the
+page stays fast to load.
+Where to put it: assets/certificates/ (create this folder if it
+doesn't exist yet — see Section 6, Step 1).
+How to reference it: set the "image" field of that certificate's
+object in data.js to the file's path, e.g.
+  image: "assets/certificates/python-programming.jpg",
+How it appears on the certificate card: currently, the grid card
+itself does NOT show a thumbnail image — cards show a category
+icon, title, and issuer only. The image is shown when the card
+is clicked and the modal opens.
+How the full certificate opens: clicking a certificate card
+calls openCertModal() in script.js, which checks the "image"
+field. If it's set, it renders an <img> tag inside the modal's
+preview area. If it's "null", the modal instead shows the text
+"Certificate image not yet uploaded — add an image path in
+data.js to display a preview here."
+Does the project auto-generate previews? No — you must supply
+the image file yourself; nothing in this project generates
+thumbnails or previews automatically.
+
+
+============================================================
+8. HOW TO ADD PDF CERTIFICATES
+============================================================
+
+Where PDFs should be stored: assets/certificates/ (same folder
+as images — see Section 6, Step 1).
+How to reference them: this project's current data structure
+(the CERTIFICATES array in data.js) does not have a dedicated
+PDF field — it only has an "image" field used for the modal
+preview. To let visitors open or download the original PDF, the
+simplest approach that fits the existing pattern is to reuse the
+"verificationUrl" field to point at the PDF's file path, e.g.:
+  verificationUrl: "assets/certificates/python-programming.pdf",
+This will make the existing "Verify Credential" button in the
+modal open that PDF instead of an external verification page —
+which is a reasonable stand-in, but the button text will still
+say "Verify Credential," which may be misleading. If you want a
+clearly labeled "View PDF" button instead, this requires a small
+code change (see the note at the end of this section).
+How the "View Certificate" button works: on the certificate grid
+card itself, the clickable element is the whole card, labeled
+"View details →" — clicking it opens the modal described in
+Section 7.
+How the "Download" button works: there is currently no separate
+download button inside the certificate modal — only the
+"Verify Credential" link (which opens in a new tab, not a
+download) appears, and only when "verificationUrl" is set.
+Do PDFs open in a new tab or a modal? Only in a new browser tab
+(via target="_blank" on the "Verify Credential" link) — this
+project does not display PDF contents inside the modal itself,
+only images.
+Limitations: there is no dedicated "pdf" field or "Download PDF"
+button in the current code. If you want that as a distinct,
+correctly labeled feature, ask a developer (or an AI coding
+assistant — see Section 39) to: (1) add a "pdf" field next to
+"image" in each CERTIFICATES entry in data.js, and (2) update
+the openCertModal() function in script.js to render a
+"Download Certificate (PDF)" button when that field is set.
+
+
+============================================================
+9. HOW TO EDIT, DELETE, REPLACE, OR REORDER A CERTIFICATE
+============================================================
+
+EDIT A CERTIFICATE
+--------------------
+Step 1: Open data.js.
+Step 2: Find the CERTIFICATES array and locate the object for
+the certificate you want to change (match it by its "title").
+Step 3: Change whichever field(s) you need (title, issuer,
+category, date, credentialId, verificationUrl, image).
+Step 4: Save the file and refresh the browser to confirm.
+
+DELETE A CERTIFICATE
+-----------------------
+Step 1: Open data.js.
+Step 2: Find the certificate's whole object inside the
+CERTIFICATES array — it starts with "{" and ends with "},".
+Step 3: Delete that entire block, including the surrounding
+curly braces and trailing comma.
+Step 4: Save and refresh — the card disappears automatically,
+and if it was the last certificate in its category, that
+category's filter button also disappears automatically (filter
+buttons are generated from whatever categories currently exist).
+
+REPLACE A CERTIFICATE FILE (without breaking the site)
+-----------------------------------------------------------
+Step 1: Add the new file into assets/certificates/ using a new
+filename (don't overwrite the old filename directly, to avoid
+browser caching showing the old file temporarily).
+Step 2: Update the "image" (and/or "verificationUrl", if used
+for a PDF as described in Section 8) field in that certificate's
+data.js entry to point at the new filename.
+Step 3: Once you've confirmed the new file displays correctly,
+you can safely delete the old file from assets/certificates/.
+
+CHANGE CERTIFICATE ORDER
+----------------------------
+Certificates are displayed in exactly the order their objects
+appear in the CERTIFICATES array in data.js. To reorder them,
+cut and paste a whole certificate object (from its opening "{"
+to its closing "},") to a new position in the array. No other
+file needs to change.
+
+
+============================================================
+10. HOW TO ADD A NEW PROJECT
+============================================================
+
+File to edit: data.js — the PROJECTS array (search for
+"const PROJECTS").
+
+Add a new object following this exact shape:
+
+  {
+    id: "your-project-id",
+    name: "Your Project Name",
+    category: "Software",
+    tagline: "One short line describing the project.",
+    problem: "What real problem this project addresses.",
+    description: "A slightly longer paragraph describing what
+      the project does and how it works.",
+    features: [
+      "First key feature",
+      "Second key feature",
+      "Third key feature",
+    ],
+    tech: ["Python", "MySQL"],
+    github: "https://github.com/yourusername/your-project",
+    demo: null,
+  },
+
+Field notes:
+- "id": a unique, lowercase, hyphenated identifier — used
+  internally to pick which icon to show (see below).
+- "category": currently either "Software" or "Hardware" are
+  used, but you can introduce a new category name freely — the
+  filter buttons above the Projects grid are generated
+  automatically from whatever categories exist in this array.
+- "github" / "demo": set to a real URL string, or "null" (no
+  quotes) if you don't have one yet — see Section 11 for what
+  happens when these are null.
+
+ONE EXTRA STEP FOR THE ICON (optional but recommended)
+-----------------------------------------------------------
+File: script.js
+Find the PROJECT_ICON object near the top of the file:
+  const PROJECT_ICON = { "library-management-system": "book", "hospital-management-system": "cross", "rc-car-pragyan": "rover" };
+Add your new project's "id" as a key, mapped to one of the
+existing icon names ("book", "cross", "rover") or "code" (a
+generic default is used automatically if you skip this step, so
+this step is optional).
+
+
+============================================================
+11. HOW TO EDIT EXISTING PROJECTS
+============================================================
+
+File: data.js, inside the PROJECTS array.
+
+To change the title: edit the "name" field.
+To change the description: edit the "description" field (and
+"tagline" for the short one-line version shown under the title).
+To change technologies shown as badges: edit the "tech" array —
+add or remove quoted strings, separated by commas.
+To change the GitHub link: edit the "github" field to a real
+URL string.
+To change the live demo link: edit the "demo" field to a real
+URL string.
+To change the bullet-point features: edit the "features" array.
+
+WHAT HAPPENS IF A PROJECT HAS NO GITHUB OR LIVE DEMO LINK?
+---------------------------------------------------------------
+This project is built to handle that gracefully: if "github" is
+"null", the "Code" button on that project's card is
+automatically disabled and its label changes to
+"Code — private". If "demo" is "null", the "Live Demo" button is
+disabled and labeled "No demo yet". This logic lives in the
+renderProjects() function in script.js and requires no manual
+changes — it happens automatically based on whether the field is
+null or a real URL.
+There is currently no image field for project cards — each card
+uses a small icon (see Section 10) instead of a screenshot. To
+add real project screenshots, see Section 13.
+
+
+============================================================
+12. HOW TO ADD IMAGES (GENERAL)
+============================================================
+
+PROFILE PHOTO
+--------------
+Not currently supported by this project's structure — there is
+no photo placeholder in index.html or data.js. Adding one
+requires a small code change: placing an <img> tag in the hero
+section of index.html (likely replacing or sitting alongside the
+terminal panel) and adding the image file to assets/. This is a
+layout change, not just a content change — see Section 22 for
+the general process of adding new visual elements.
+
+PROJECT SCREENSHOTS
+----------------------
+Not currently supported by the PROJECTS data structure in
+data.js (there is no "image" field on project objects — only
+project cards use a generic icon). To add real screenshots,
+a developer would need to add an "image" field to each project
+object and update the renderProjects() function in script.js to
+display it.
+
+CERTIFICATE IMAGES
+----------------------
+Fully supported already — see Section 7.
+
+OTHER IMAGES
+------------
+For any other image (for example, in a brand-new section you
+add later — see Section 22), place the file inside the assets/
+folder (creating a sensibly named sub-folder, similar to how
+"assets/certificates/" is used), and reference it with a
+relative path such as "assets/your-folder/your-image.jpg" in
+either data.js or directly in index.html.
+
+GENERAL RULES FOR ALL IMAGES
+--------------------------------
+- Supported formats: JPG, PNG, WEBP, SVG.
+- Naming convention: lowercase, hyphen-separated, no spaces
+  (matches the convention already used for the resume file and
+  recommended for certificates).
+- Paths must be written relative to index.html (the file already
+  in this project uses "assets/Soumya_Joshi_Resume.pdf", not an
+  absolute path).
+- Common mistakes: spaces in filenames, mismatched capitalization
+  between the actual filename and the path written in code (this
+  matters on some servers, like GitHub Pages, even if it works
+  fine on your own computer), and forgetting to actually place
+  the file inside the assets/ folder before referencing it.
+
+
+============================================================
+13. HOW TO CHANGE SKILLS
+============================================================
+
+File: data.js — the SKILLS array (search for "const SKILLS").
+
+Current structure: SKILLS is a list of categories, each with a
+"category" name and an "items" list of individual skills, e.g.:
+
+  {
+    category: "Core Languages",
+    items: ["C", "C++", "Python", "MySQL"],
+  },
+
+ADD A SKILL
+-------------
+Find the category you want to add to, and add a new quoted
+string to its "items" array, separated by a comma.
+Example before:
+  items: ["C", "C++", "Python", "MySQL"],
+Example after:
+  items: ["C", "C++", "Python", "MySQL", "Java"],
+
+DELETE A SKILL
+----------------
+Remove its quoted string (and the surrounding comma) from the
+"items" array.
+
+RENAME A SKILL
+----------------
+Edit the text inside the quotes directly.
+
+CHANGE A SKILL'S CATEGORY
+-----------------------------
+Cut the skill's quoted string out of one category's "items"
+array and paste it into another category's "items" array.
+
+ADD A WHOLE NEW CATEGORY
+-----------------------------
+Add a new object to the SKILLS array itself, following the same
+shape:
+  {
+    category: "Cloud & DevOps",
+    items: ["Docker", "AWS"],
+  },
+No other file needs to change — script.js automatically renders
+one card per category, in the order they appear in this array.
+
+SKILL ICONS
+-----------
+Skills are displayed as small text "pill" tags, not icons — this
+project does not currently use per-skill icons, so there is
+nothing to change here.
+
+
+============================================================
+14. HOW TO CHANGE EXPERIENCE
+============================================================
+
+THIS PROJECT CURRENTLY HAS NO "EXPERIENCE" SECTION OR DATA
+STRUCTURE.
+
+This is intentional, not an oversight: the source resume this
+site was built from does not list any formal work experience
+(no company names, job titles, or employment dates), so no
+Experience section or timeline was created, to avoid inventing
+information that isn't true.
+
+If you get a job or internship and want to add an Experience
+section later, the closest existing pattern to copy from is the
+EDUCATION array and its rendering logic — see Section 22 for the
+general process of adding a brand-new section, and consider
+modeling a new EXPERIENCE array in data.js after EDUCATION's
+shape (degree/institution/duration/detail becoming
+title/company/duration/description, for example).
+
+
+============================================================
+15. HOW TO CHANGE EDUCATION
+============================================================
+
+File: data.js — the EDUCATION array (search for
+"const EDUCATION").
+
+Current structure, using the real first entry as an example:
+
+  {
+    degree: "Bachelor of Technology — Computer Science & Engineering",
+    institution: "Lakshmi Narain College of Technology and Science, Bhopal",
+    location: "Bhopal, India",
+    duration: "Aug 2024 — Aug 2028",
+    detail: "Ongoing · Current CGPA: 8.05",
+  },
+
+ADD EDUCATION
+----------------
+Add a new object to the EDUCATION array, following the same five
+fields shown above.
+
+EDIT EDUCATION
+-----------------
+Change any field directly — "degree", "institution", "location",
+"duration", or "detail" (used for CGPA/percentage or other short
+notes).
+
+DELETE EDUCATION
+-------------------
+Remove the entire object (from "{" to "},") from the array.
+
+CHANGE DEGREE / INSTITUTION / DATES
+---------------------------------------
+Edit the "degree", "institution", and "duration" fields directly.
+
+ADD ACHIEVEMENTS
+-------------------
+There is no separate "achievements" field — use the "detail"
+field for any short additional note (this is how CGPA and exam
+percentages are currently shown for each entry).
+
+Note on ordering: entries display in the exact order they appear
+in the array, connected visually by the dashed timeline line —
+reorder them the same way described for certificates in
+Section 9.
+
+
+============================================================
+16. HOW TO CHANGE THE RESUME
+============================================================
+
+Where the PDF should be placed: inside the assets/ folder,
+alongside the existing file.
+What filename should be used: you can either (a) replace the
+existing file directly, keeping the exact name
+"Soumya_Joshi_Resume.pdf", or (b) use a new filename and update
+the reference to it (see below).
+Does the code need to change? Only if you use a new filename.
+If you keep the exact filename "Soumya_Joshi_Resume.pdf", simply
+replacing the file inside assets/ is enough — no code changes
+needed.
+If you use a different filename, update BOTH of these:
+File: data.js
+Find:      resumeFile: "assets/Soumya_Joshi_Resume.pdf",
+(Note: this PROFILE.resumeFile value is currently stored but not
+actually used by the Download Resume button — see below.)
+File: index.html
+Find (inside the hero section):
+  <a href="assets/Soumya_Joshi_Resume.pdf" download class="btn btn-ghost">Download Resume</a>
+Replace the path in "href" with your new filename.
+
+How the Download Resume button works: it's a plain HTML link
+with a "download" attribute, which tells the browser to download
+the file instead of navigating to it.
+
+How to troubleshoot a broken resume link:
+- Confirm the file actually exists inside assets/ with that
+  exact name (capitalization matters on some servers).
+- Confirm the "href" path in index.html matches the filename
+  exactly, including the "assets/" prefix.
+- If you renamed the file, make sure you updated index.html (the
+  href actually used by the button), not just PROFILE.resumeFile
+  in data.js (which nothing currently reads from).
+
+
+============================================================
+17. HOW TO CHANGE COLORS AND DESIGN
+============================================================
+
+This project does NOT use Tailwind CSS — it uses plain CSS with
+custom properties (variables), all defined in one place.
+
+File: style.css, lines 1–48 (the ":root { ... }" block and the
+"[data-theme='light'] { ... }" block right below it).
+
+The ":root" block defines the DARK theme (the default). The
+"[data-theme='light']" block overrides those same variable names
+for the LIGHT theme.
+
+KEY VARIABLES AND WHAT THEY CONTROL
+---------------------------------------
+--bg                Main page background color
+--bg-elevated        Slightly different background (navbar, modal)
+--surface            Card backgrounds (project cards, skill cards,
+                     certificate cards, etc.)
+--surface-hover      Card/link background on hover
+--border             Default subtle border/divider color
+--border-strong      More visible border color (buttons, cards on
+                     hover)
+--text-primary       Main text color (headings, body)
+--text-secondary     Slightly muted text (descriptions)
+--text-tertiary      Most muted text (labels, captions)
+--accent             Primary accent color (teal) — used for links,
+                     highlights, the eyebrow dot, active nav links
+--accent-dim         Transparent/tinted version of --accent, used
+                     for skill tag backgrounds and glow effects
+--accent-strong      Brighter accent, used on button hover
+--amber              Secondary accent color — used for the hero
+                     role text, certificate icons, timeline dates
+--amber-dim          Transparent/tinted version of --amber
+
+TO CHANGE THE PRIMARY (TEAL) COLOR
+--------------------------------------
+Edit these three lines in the ":root" block:
+  --accent: #58e6c9;
+  --accent-dim: rgba(88, 230, 201, 0.14);
+  --accent-strong: #7ff2da;
+Replace the hex code with your new color, and update the
+"rgba(...)" values to match (the three numbers are the same
+color's Red, Green, Blue values — you can convert a hex color to
+RGB using any online color picker).
+
+TO CHANGE THE SECONDARY (AMBER) COLOR
+------------------------------------------
+Edit:
+  --amber: #f2a65a;
+  --amber-dim: rgba(242, 166, 90, 0.14);
+
+TO CHANGE BACKGROUND / TEXT / CARD / BORDER COLORS
+-------------------------------------------------------
+Edit the corresponding variable listed above. Remember to update
+BOTH the ":root" block (dark theme) and the
+"[data-theme='light']" block (light theme) if you want the
+change to apply in both modes.
+
+BUTTONS AND HOVER EFFECTS
+------------------------------
+Buttons are styled further down in style.css, under the
+"BUTTONS" comment heading (search for ".btn-primary" and
+".btn-ghost"). These mostly reference the variables above (for
+example, ".btn-primary" uses "var(--accent)" as its background),
+so changing the variables above will usually be enough. If you
+want to change button shape, padding, or the hover animation
+itself (not just its color), edit the ".btn", ".btn-primary",
+and ".btn-ghost" rules directly.
+
+GRADIENTS
+---------
+The subtle background gradients behind the hero section are
+defined in the ".hero" rule in style.css, using
+"radial-gradient(...)" with "var(--accent-dim)" and
+"var(--amber-dim)" — changing those two variables will
+automatically update the gradient colors too.
+
+
+============================================================
+18. HOW TO CHANGE FONTS
+============================================================
+
+CURRENT FONTS
+----------------
+- "IBM Plex Mono" — used for headings, labels, navigation,
+  buttons, and anything meant to feel "technical" (this is the
+  --font-display and --font-mono variable).
+- "Inter" — used for regular body/paragraph text (this is the
+  --font-body variable).
+
+WHERE THEY'RE CONFIGURED
+----------------------------
+Loaded from Google Fonts via a <link> tag in the <head> of
+index.html:
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+Then referenced in style.css inside the ":root" block:
+  --font-display: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+HOW TO REPLACE A FONT / ADD A DIFFERENT GOOGLE FONT
+---------------------------------------------------------
+Step 1: Go to fonts.google.com, choose a font, and copy the
+<link> tag it gives you.
+Step 2: In index.html, replace the existing Google Fonts <link>
+tag with the new one.
+Step 3: In style.css, update the --font-display, --font-body,
+and/or --font-mono variables to use your new font's name (must
+match the family name exactly, in quotes).
+
+Example — replacing the body font with "Source Sans 3":
+Before:
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+After:
+  --font-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+(and make sure the Google Fonts <link> tag in index.html includes
+"Source Sans 3" instead of, or alongside, "Inter")
+
+
+============================================================
+19. HOW TO MODIFY ANIMATIONS
+============================================================
+
+WHERE ANIMATIONS ARE DEFINED
+---------------------------------
+All animations are plain CSS transitions/keyframes defined in
+style.css — there is no animation library involved.
+Examples: the hero's blinking cursor (search for "@keyframes
+blink"), card hover lift effects (search for "transform:
+translateY" throughout the file), and scroll-triggered fade-ins
+(the ".reveal" and ".reveal.is-visible" rules).
+
+WHICH LIBRARY IS RESPONSIBLE FOR SCROLL REVEALS?
+------------------------------------------------------
+No external library — script.js uses the browser's built-in
+IntersectionObserver API (see the initReveal() function) to
+detect when an element scrolls into view, then adds an
+"is-visible" class to it, which style.css uses to fade/slide it
+in.
+
+HOW TO DISABLE AN ANIMATION
+--------------------------------
+This project already respects the "prefers-reduced-motion"
+operating-system setting automatically — if a visitor has that
+setting turned on, style.css (see the
+"@media (prefers-reduced-motion: reduce)" block near the top)
+shortens all animations to nearly instant automatically. You
+don't need to do anything for that to work.
+To manually disable a specific animation for everyone (not just
+reduced-motion users), find its CSS rule in style.css and either
+delete the "transition" or "animation" property, or set its
+duration to "0s".
+
+HOW TO CHANGE ANIMATION DURATION
+-------------------------------------
+Most transitions in this project use a shared timing variable:
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+combined with individual duration values written directly on
+each rule (for example, ".reveal" transitions over "0.7s"). To
+make reveals faster or slower, search style.css for ".reveal {"
+and change the "0.7s" value.
+
+HOW TO ADD A SIMPLE ANIMATION
+----------------------------------
+To make any element fade in on scroll the same way existing
+sections do, add the CSS class "reveal" to it in index.html —
+script.js automatically detects every element with that class on
+page load and observes it for scroll-based reveal, with no
+additional code needed.
+
+
+============================================================
+20. HOW TO MODIFY THE NAVIGATION BAR
+============================================================
+
+Navigation links are written TWICE in index.html — once for
+desktop, once for the mobile menu — because they are simple
+static HTML lists in this project rather than being generated
+from data.js.
+
+File: index.html
+
+Desktop navigation (search for "nav-links"):
+  <ul class="nav-links">
+    <li><a href="#home" data-nav>Home</a></li>
+    <li><a href="#about" data-nav>About</a></li>
+    ...
+  </ul>
+
+Mobile navigation (search for "mobileNav"):
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#home" data-nav>Home</a>
+    <a href="#about" data-nav>About</a>
+    ...
+  </div>
+
+ADD A NAVIGATION ITEM
+-------------------------
+Add a new <li><a href="#yoursection" data-nav>Label</a></li> to
+the desktop list, AND a matching
+<a href="#yoursection" data-nav>Label</a> to the mobile list.
+The "href" must match the "id" attribute of the <section> you
+want it to scroll to (see Section 22 for adding a whole new
+section).
+Keep the "data-nav" attribute on every link — script.js uses it
+to detect which link to highlight as "active" while scrolling.
+
+REMOVE A NAVIGATION ITEM
+-----------------------------
+Delete its <li>...</li> (desktop) and matching <a>...</a>
+(mobile) lines.
+
+RENAME A NAVIGATION ITEM
+-----------------------------
+Edit the text between the <a> tags in both places.
+
+CHANGE THEIR ORDER
+-----------------------
+Reorder the <li> (desktop) and <a> (mobile) lines. It's a good
+idea to keep both lists in the same order as each other, and to
+match the order sections actually appear on the page, since the
+active-link highlighting is based on scroll position.
+
+LINK THEM TO SECTIONS
+--------------------------
+Each link's "href" must exactly match the target section's "id"
+attribute, prefixed with "#" — for example,
+<a href="#skills"> links to <section class="section" id="skills">.
+
+
+============================================================
+21. HOW TO ADD A NEW SECTION
+============================================================
+
+Example: adding a new "Testimonials" section.
+
+Step 1 — Add content to data.js
+Add a new array near the others, following the existing pattern:
+  const TESTIMONIALS = [
+    { quote: "...", author: "...", role: "..." },
+  ];
+
+Step 2 — Add the section's HTML structure to index.html
+Add a new <section> between two existing ones, matching the
+pattern used by other sections (an .eyebrow label, a
+.section-title, a .section-desc, and an empty container with a
+unique id for JavaScript to fill in), for example:
+  <section class="section" id="testimonials">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">07 · Testimonials</div>
+        <h2 class="section-title">What people say</h2>
+      </div>
+      <div id="testimonialGrid"></div>
+    </div>
+  </section>
+
+Step 3 — Add a render function to script.js
+Following the pattern of renderActivities() or renderEducation(),
+add a function that builds HTML from the TESTIMONIALS array and
+inserts it into "#testimonialGrid".
+
+Step 4 — Call your new function
+Find the "document.addEventListener("DOMContentLoaded", ...)"
+block near the bottom of script.js, and add a call to your new
+render function alongside the existing ones (like
+"renderActivities();").
+
+Step 5 — Add styling
+Add new CSS rules to style.css for any new class names you used
+(".testimonial-card", etc.), reusing the existing design tokens
+(--surface, --border, --accent, etc.) so it matches the rest of
+the site.
+
+Step 6 — Add a navigation link
+Follow Section 20 to add "Testimonials" to both the desktop and
+mobile navigation menus, linking to "#testimonials".
+
+Step 7 — Test responsiveness
+Resize your browser window (or use your browser's device toolbar)
+to check the new section at desktop, tablet (~980px), and mobile
+(~720px and below) widths — see Section 25 for the exact
+breakpoints already used elsewhere in this project, and try to
+reuse them for consistency.
+
+
+============================================================
+22. HOW TO CHANGE CONTACT INFORMATION
+============================================================
+
+WHERE TO CHANGE EMAIL, PHONE, LOCATION, LINKEDIN, GITHUB
+--------------------------------------------------------------
+All five of these are controlled from ONE place:
+File: data.js, inside the PROFILE object (see Section 5 for the
+exact field names and examples). Once changed there, they update
+automatically in: the Contact section's info list, the footer,
+and the hero's social icons (for GitHub/LinkedIn/email
+specifically).
+
+CONTACT FORM SETTINGS
+-------------------------
+File: index.html — the form fields themselves (Name, Email,
+Subject, Message) are defined in the <form id="contactForm">
+block.
+File: script.js — the validation rules (what counts as a valid
+name/email/subject/message) live in the initContactForm()
+function, inside the "fields" object near its top.
+
+DOES THE CONTACT FORM ACTUALLY SEND MESSAGES?
+---------------------------------------------------
+No. This project is frontend-only and has no backend or email
+service connected. The form validates input on the visitor's
+side (checks that fields aren't empty/too short and that the
+email looks valid) and shows a confirmation message, but nothing
+is actually transmitted anywhere. This is stated directly on the
+page itself, under the Send Message button:
+"This form isn't wired to an email service yet — connect one
+(e.g. Formspree, EmailJS) to enable delivery."
+To make it actually send messages, you would need to connect a
+third-party form backend (such as Formspree or EmailJS) or build
+your own small server endpoint, and update the form's submit
+handling in script.js accordingly.
+
+
+============================================================
+23. HOW TO ADD SOCIAL MEDIA
+============================================================
+
+Currently connected and displayed automatically from data.js:
+GitHub, LinkedIn, and Email (hero icons, contact section, and
+footer).
+
+Currently stored in data.js but NOT yet displayed anywhere:
+"twitter" and "instagram" fields exist in the PROFILE object, but
+no icon or link for them is currently rendered by script.js
+(Twitter/X is instead hardcoded directly into index.html's hero
+icon row with its own SVG icon, separately from data.js).
+
+TO ADD A NEW SOCIAL LINK (e.g., YouTube) THAT UPDATES AUTOMATICALLY
+------------------------------------------------------------------------
+Step 1: Add a new field to the PROFILE object in data.js, e.g.:
+  youtube: "https://youtube.com/@yourchannel",
+Step 2: In script.js, inside the renderContactInfo() function,
+add a new entry to the "rows" array (for the Contact section)
+and/or a new <a> tag inside the "#footerSocial" innerHTML (for
+the footer), following the exact pattern already used for GitHub
+and LinkedIn there, including an SVG icon.
+Step 3 (optional): To also show it as a circular icon in the
+hero section, add a new <a> tag inside the
+".hero-socials" block in index.html, matching the style of the
+existing GitHub/LinkedIn/Email/X icons there.
+
+TO REMOVE A SOCIAL LINK
+----------------------------
+Remove its <a> tag from the ".hero-socials" block in index.html,
+and/or remove its entry from the "rows" array in
+renderContactInfo() in script.js, and/or remove it from the
+"#footerSocial" innerHTML in the same function — depending on
+which of those three places currently show it.
+
+
+============================================================
+24. DARK / LIGHT MODE
+============================================================
+
+HOW THE CURRENT THEME SYSTEM WORKS
+---------------------------------------
+The <html> tag has a "data-theme" attribute, set to either
+"dark" or "light". style.css defines two sets of color
+variables — one under ":root" (used when data-theme="dark" or is
+absent) and one under "[data-theme='light']" (used when
+data-theme="light") — see Section 17 for the exact variables.
+Clicking the theme toggle button in the navbar calls the
+initTheme() function's click handler in script.js, which flips
+the <html> element's "data-theme" attribute between "dark" and
+"light". CSS handles the actual color swap automatically because
+every color in the site is written as "var(--some-variable)"
+rather than a hardcoded color.
+
+WHERE THEME SETTINGS ARE STORED
+------------------------------------
+They are NOT stored/persisted anywhere. The site always starts
+in dark mode when the page loads or is refreshed — the chosen
+theme is only kept in memory for the current page view. This is
+a deliberate simplification, not a bug, but it does mean a
+visitor's preference resets every time they reload the page.
+
+HOW TO CHANGE THE DEFAULT THEME
+------------------------------------
+File: index.html
+Find (the very first line):
+  <html lang="en" data-theme="dark">
+Change "dark" to "light" to make light mode the default.
+File: script.js
+Also find, inside initTheme():
+  let theme = "dark";
+Change to:
+  let theme = "light";
+(Both need to match, or the toggle button's first click will
+appear to do nothing.)
+
+HOW TO MAKE THE THEME PERSIST ACROSS PAGE RELOADS (optional improvement)
+-------------------------------------------------------------------------------
+This is not currently implemented. Since this project is now a
+regular standalone website (not restricted the way an embedded
+preview might be), you could store the chosen theme using the
+browser's localStorage so it's remembered next time a visitor
+returns. This would require a small change to the initTheme()
+function in script.js to read/write a saved value. Treat this as
+an optional future improvement, not existing functionality.
+
+HOW TO ADD/REMOVE THE THEME TOGGLE BUTTON
+-----------------------------------------------
+File: index.html — the button itself (search for id="themeToggle")
+is inside the ".nav-actions" block in the navbar. Removing that
+button element removes the visible toggle; the theme will then
+stay on whatever the default is set to.
+
+
+============================================================
+25. RESPONSIVE DESIGN
+============================================================
+
+HOW IT WORKS
+--------------
+style.css uses CSS "@media" queries to change layout at two
+breakpoints. All responsive rules are grouped together near the
+bottom of style.css, under the "RESPONSIVE" comment heading.
+
+BREAKPOINTS USED IN THIS PROJECT
+-------------------------------------
+@media (max-width: 980px)   — "tablet" adjustments: hero becomes
+                                single-column, About/Contact
+                                sections stack vertically, grids
+                                that were 3–4 columns become 2.
+@media (max-width: 720px)   — "mobile" adjustments: the desktop
+                                nav links are hidden and the
+                                hamburger menu icon appears
+                                instead, all multi-column grids
+                                become a single column, section
+                                padding shrinks, and buttons in
+                                the hero stretch to full width.
+
+TO CHANGE WHERE A LAYOUT SWITCHES (the breakpoint number itself)
+-----------------------------------------------------------------------
+Edit the "max-width" value in the relevant
+"@media (max-width: ...)" rule in style.css.
+
+MOBILE NAVIGATION
+------------------
+The hamburger button (id="hamburger") and the mobile menu panel
+(id="mobileNav") are defined in index.html and shown/hidden via
+the ".hamburger" and ".mobile-nav" CSS rules combined with the
+".open" class, which script.js's initNavbar() function toggles
+on click.
+
+CARD SIZES / TEXT SIZES
+----------------------------
+Most headings use "clamp(...)" in their font-size (for example,
+the hero heading uses "clamp(38px, 5.6vw, 64px)"), which means
+they scale smoothly with screen width between a minimum and
+maximum size, rather than jumping abruptly at breakpoints. Grid
+column counts (how many cards per row) are controlled by
+"grid-template-columns" rules for each grid class (".skills-grid",
+".project-grid", ".cert-grid", etc.), which are overridden at
+each breakpoint in the RESPONSIVE section.
+
+NO HORIZONTAL SCROLLING
+----------------------------
+The project was checked to ensure the page does not scroll
+sideways on narrow screens (all major containers use
+"max-width: 100%" behavior implicitly through the grid/flex
+layouts and the ".wrap" container's fixed max-width with
+padding). If you add new content later, keep an eye out for
+anything with a fixed pixel width wider than a phone screen.
+
+
+============================================================
+26. DEPENDENCIES
+============================================================
+
+This project has NO package dependencies — there is no
+package.json file and nothing installed via npm. The only
+external resource loaded by the site is:
+
+Resource: Google Fonts (IBM Plex Mono, Inter)
+Purpose: Provides the two typefaces used across the site.
+Used by: A <link> tag in the <head> of index.html; referenced by
+name inside the CSS variables in style.css (see Section 18).
+Can I remove it? Yes — delete the two <link> tags (the
+"preconnect" ones and the stylesheet one) from index.html.
+What happens if removed? The site will fall back to each
+variable's next listed font (e.g. Menlo or "Segoe UI", depending
+on the visitor's operating system) — the site still works and
+looks similar, just not identical.
+
+
+============================================================
+27. ENVIRONMENT VARIABLES
+============================================================
+
+This project currently does not require environment variables.
+
+There is no .env file, and none of the four project files
+(index.html, style.css, script.js, data.js) read any environment
+configuration — all values (colors, text, links) are written
+directly in plain code, which is normal and expected for a
+static site like this one.
+
+
+============================================================
+28. BACKEND / DATABASE
+============================================================
+
+The current portfolio is frontend-only.
+
+There is no backend, no API route, no database, no
+authentication system, and no cloud storage anywhere in this
+project. All content — profile info, skills, projects,
+certificates, education, activities — is stored as plain
+JavaScript objects and arrays inside data.js, and is loaded
+fresh from that file every time the page loads. Certificate
+information is stored the same way: as static data in data.js,
+not in any database.
+
+WHAT WOULD BE NEEDED TO ADD A REAL CERTIFICATE MANAGEMENT SYSTEM
+------------------------------------------------------------------------
+This is a possible FUTURE improvement, not something this
+project currently has. At a minimum it would require:
+1. A backend server or serverless functions (e.g. a small
+   Node.js/Express API, or a hosted backend service).
+2. A database (e.g. a hosted PostgreSQL/MySQL/MongoDB instance)
+   to store certificate records instead of the CERTIFICATES
+   array in data.js.
+3. File storage for uploaded certificate images/PDFs (e.g. a
+   cloud storage bucket), since a static site cannot itself
+   receive and permanently store uploaded files.
+4. Some form of authentication, so that only you (not any site
+   visitor) can add/edit/delete certificates through an admin
+   interface.
+5. Rewriting script.js's rendering functions to fetch data from
+   that backend API instead of reading the local data.js file.
+This is a meaningfully larger project than the current site and
+should be treated as an optional future direction, not a gap in
+what exists today.
+
+
+============================================================
+29. DEPLOYMENT
+============================================================
+
+Because this project has no build step, deployment is simply
+"upload these 4 files and the assets folder, as-is."
+
+COMPATIBLE PLATFORMS
+------------------------
+- GitHub Pages   (free, works great for a project with no backend)
+- Netlify         (drag-and-drop the folder, or connect a GitHub repo)
+- Vercel          (works for static sites, though it's more commonly
+                   used for framework-based projects)
+- Literally any static file host (since there's nothing to build)
+
+BUILD COMMAND
+--------------
+None. There is no build step — do not run "npm run build" or
+similar, since there is no package.json or build tool configured
+in this project.
+
+OUTPUT DIRECTORY
+-------------------
+The project root itself (the "portfolio" folder containing
+index.html) IS the output/deployable folder — there is no
+separate "dist" or "build" folder to look for.
+
+ENVIRONMENT VARIABLES
+-------------------------
+None needed (see Section 27).
+
+DEPLOYMENT PROCESS — GitHub Pages (recommended, free)
+-----------------------------------------------------------
+Step 1: Create a new repository on GitHub and push this project
+to it (see Section 30 for the exact commands).
+Step 2: In the repository, go to Settings > Pages.
+Step 3: Under "Source," choose "Deploy from a branch," select
+your main branch and the "/ (root)" folder, then save.
+Step 4: GitHub will give you a live URL (usually
+"https://yourusername.github.io/your-repo-name/") within a
+minute or two.
+
+DEPLOYMENT PROCESS — Netlify (also free, slightly simpler)
+-----------------------------------------------------------------
+Step 1: Go to netlify.com and sign in.
+Step 2: Drag the entire "portfolio" folder onto the Netlify
+dashboard's deploy area (or connect your GitHub repository for
+automatic deploys on every push).
+Step 3: Netlify gives you a live URL immediately.
+
+CUSTOM DOMAIN SETUP
+------------------------
+Both GitHub Pages and Netlify support connecting a custom domain
+you own, through their respective dashboards ("Custom domain" or
+"Domain settings" sections) — this involves updating your
+domain's DNS records to point at the hosting platform, following
+the instructions shown in that platform's dashboard.
+
+HOW TO UPDATE THE LIVE WEBSITE AFTER MAKING CHANGES
+----------------------------------------------------------
+- If deployed via GitHub Pages or a Netlify site connected to
+  GitHub: push your changes to GitHub (see Section 30) and the
+  live site updates automatically within a minute or two.
+- If deployed via a manual Netlify drag-and-drop: you need to
+  drag the updated folder onto Netlify again each time.
+
+
+============================================================
+30. GITHUB WORKFLOW
+============================================================
+
+If you're managing this project with Git and GitHub, here is
+what each command does:
+
+  git status
+    Shows which files you've changed since your last commit.
+
+  git add .
+    Stages all your changed files, preparing them to be
+    committed (the "." means "everything in this folder").
+
+  git commit -m "Update portfolio"
+    Saves a snapshot of your staged changes, with a short
+    message describing what you did. Replace "Update portfolio"
+    with a more specific message when useful, e.g.
+    "Add Python certificate".
+
+  git push
+    Uploads your committed changes to GitHub.
+
+HOW DEPLOYMENT WORKS AFTER PUSHING
+---------------------------------------
+If your site is hosted on GitHub Pages, or on a Netlify/Vercel
+site connected directly to your GitHub repository, pushing
+changes with "git push" triggers an automatic redeploy — no
+extra manual step is needed. If you deployed manually (e.g. a
+one-time Netlify drag-and-drop), pushing to GitHub does NOT
+automatically update the live site — you'd need to redo that
+manual upload.
+
+
+============================================================
+31. COMMON ERRORS AND SOLUTIONS
+============================================================
+
+CERTIFICATE NOT APPEARING
+-----------------------------
+Cause: A typo or missing comma in the object you added to the
+CERTIFICATES array in data.js — a single syntax mistake can
+prevent the entire file from running.
+Solution: Open your browser's developer console (press F12,
+click the "Console" tab) and look for a red error message
+pointing at a line number in data.js — that's almost always
+where the mistake is. Compare your new entry's punctuation
+(commas, quotes, curly braces) against an existing entry.
+
+CERTIFICATE IMAGE NOT LOADING
+----------------------------------
+Cause: The "image" path in data.js doesn't exactly match the
+real file's location/name, or the file wasn't actually placed in
+assets/certificates/.
+Solution: Confirm the file exists at the exact path referenced
+(check spelling and capitalization), and that the path starts
+with "assets/certificates/" and is written relative to
+index.html, not as an absolute file-system path.
+
+PDF NOT OPENING
+------------------
+Cause: The "verificationUrl" (currently reused for PDFs, per
+Section 8) is missing, mistyped, or the file wasn't uploaded.
+Solution: Double check the file exists at that path, and that
+you're using a relative path like
+"assets/certificates/file.pdf", matching the real filename.
+
+PROJECT IMAGE BROKEN
+-------------------------
+Not applicable to the current version of this project — project
+cards use generated icons, not images, so there's no image
+that can go "broken" for a project card. (Only relevant if you
+later add a project image field, per Section 12.)
+
+WEBSITE NOT STARTING (blank page or errors when opening locally)
+------------------------------------------------------------------------
+Cause: Usually a JavaScript syntax error in data.js or script.js
+(commonly a missing comma, an unmatched quote or curly brace).
+Solution: Open the browser console (F12 > Console tab) — it will
+point to the exact file and line number of the problem.
+
+"npm error" WHEN TRYING TO RUN THE PROJECT
+------------------------------------------------
+Cause: This project doesn't use npm at all — if you're seeing an
+npm error, you likely tried to run an npm command (like "npm
+install" or "npm start") that doesn't apply here, since there is
+no package.json.
+Solution: Just open index.html directly, or use a plain static
+file server (see Section 3, Option B) — no npm commands are
+needed for this project.
+
+BUILD ERROR
+------------
+Cause: Same as above — this project has no build step, so a
+"build error" almost certainly means a build tool was run that
+doesn't apply to this project.
+Solution: There is nothing to build. Deploy the four files and
+the assets folder directly (see Section 29).
+
+GITHUB DEPLOYMENT FAILURE (GitHub Pages)
+---------------------------------------------
+Cause: Usually caused by selecting the wrong folder in GitHub
+Pages settings, or index.html not being in the root of the
+selected branch/folder.
+Solution: In Settings > Pages, make sure the source is set to
+your main branch and the "/ (root)" folder (not "/docs" or
+anything else), since index.html sits directly in the project
+root in this project.
+
+BLANK PAGE
+------------
+Cause: Almost always a JavaScript error preventing script.js
+from running (see "Website not starting" above), or opening the
+site from a restrictive "file://" context in a browser that
+blocks local scripts — try Option B (a local server) from
+Section 3 instead.
+
+
+============================================================
+32. SAFE VS DANGEROUS CHANGES
+============================================================
+
+SAFE CHANGES (low risk — go ahead)
+---------------------------------------
+- Any text content inside data.js (name, bio, skills, projects,
+  certificates, education, activities, contact details, social
+  links)
+- Adding/removing/reordering entries in any of the arrays in
+  data.js
+- Replacing images or the resume PDF inside assets/
+- Color values inside the ":root" and "[data-theme='light']"
+  blocks in style.css
+- Static text directly inside index.html (headings, paragraphs,
+  button labels)
+
+CHANGES REQUIRING CAUTION
+------------------------------
+- The structure/shape of objects in data.js (for example,
+  renaming a field like "title" to "name" in the PROJECTS array)
+  — this WILL break rendering unless you also update every place
+  in script.js that reads that field.
+- Anything inside script.js — this file contains the logic that
+  makes the whole site work; a small typo can break the entire
+  page (a blank page is the usual symptom).
+- The "id" attributes in index.html (e.g. id="projectGrid") —
+  these must exactly match the ids referenced inside script.js
+  (via document.querySelector("#projectGrid")); changing one
+  without the other breaks that section.
+- CSS class names in style.css and index.html — these must stay
+  in sync the same way ids do.
+
+Why caution matters here: unlike a typo in a sentence (which just
+looks wrong), a typo in code (a missing comma, a renamed id) can
+cause an entire section — or the entire page — to stop rendering,
+because JavaScript is very strict about syntax.
+
+(NOT APPLICABLE TO THIS PROJECT: package.json, routing config,
+build configuration, TypeScript configuration, database
+configuration, authentication, and deployment configuration
+files are all things this project simply doesn't have, since
+it's a plain static site — so there's nothing of that kind to be
+cautious about here.)
+
+
+============================================================
+33. QUICK UPDATE GUIDE
+============================================================
+
+ADD CERTIFICATE
+1. Put the certificate file in assets/certificates/ (create this
+   folder if it doesn't exist yet).
+2. Open data.js.
+3. Add a new object to the CERTIFICATES array.
+4. Save.
+5. Open/refresh index.html in your browser.
+6. Click the new certificate card to verify it opens correctly.
+
+ADD PROJECT
+1. (Optional) Add an icon mapping in script.js's PROJECT_ICON
+   object.
+2. Open data.js.
+3. Add a new object to the PROJECTS array.
+4. Save.
+5. Refresh the browser and check the new project card, including
+   its Code/Live Demo buttons.
+
+CHANGE NAME
+1. Open data.js.
+2. Find "name:" inside the PROFILE object.
+3. Replace the text between the quotes.
+4. Also update the <h1> text in index.html's hero section if you
+   want the big headline to match.
+5. Save and refresh.
+
+CHANGE RESUME
+1. Replace assets/Soumya_Joshi_Resume.pdf with your new PDF,
+   keeping the exact same filename.
+2. Save.
+3. Refresh the page and click "Download Resume" to confirm it
+   downloads the new file.
+
+
+============================================================
+34. FILE MODIFICATION TABLE
+============================================================
+
+What I want to change | File to edit                | Difficulty
+-----------------------+-----------------------------+------------
+Name                   | data.js (+ index.html <h1>) | Easy
+About / bio            | data.js                     | Easy
+Skills                 | data.js                     | Easy
+Projects               | data.js                     | Easy
+Certificates           | data.js                     | Easy
+Education               | data.js                     | Easy
+Activities              | data.js                     | Easy
+Contact details/socials | data.js                     | Easy
+Resume file             | assets/ folder              | Easy
+Colors/theme            | style.css (:root section)   | Medium
+Fonts                   | style.css + index.html      | Medium
+Navigation menu          | index.html                  | Medium
+Layout/responsiveness    | style.css                   | Medium
+New section              | index.html + script.js +    | Medium
+                         | data.js + style.css         |
+Contact form behavior    | script.js                   | Medium
+Adding a real backend/DB | (not present — new build)   | Advanced
+
+
+============================================================
+35. BACKUP RECOMMENDATIONS
+============================================================
+
+Before making bigger changes (adding a new section, restructuring
+data, changing multiple files at once), protect your work using
+Git and GitHub.
+
+RECOMMENDED WORKFLOW
+------------------------
+  Working version
+        |
+        v
+  Create a Git commit  (git add . && git commit -m "Before changes")
+        |
+        v
+  Make your changes
+        |
+        v
+  Test in the browser (refresh, check console for errors,
+                        check mobile view)
+        |
+        v
+  If it works  -> git add . && git commit -m "Describe the change"
+                  -> git push
+  If it broke  -> git checkout -- .   (discards uncommitted changes,
+                  restoring the last commit)
+
+If you're not using Git yet, at minimum keep a manual backup
+copy of the whole "portfolio" folder (e.g. zip it and save a
+dated copy) before making a change you're unsure about.
+
+
+============================================================
+36. BEGINNER-FRIENDLY CHANGE PROCEDURE
+============================================================
+
+Whenever you want to modify the portfolio, follow these steps:
+
+1. Open the "portfolio" folder in VS Code.
+2. Start a local server (see Section 3, Option B) so you can
+   preview changes as you make them.
+3. Find the relevant file — almost always data.js for content,
+   occasionally style.css for design, rarely index.html or
+   script.js (see Section 34's table if unsure).
+4. Make ONE small change.
+5. Save the file.
+6. Check the browser (refresh if it doesn't update automatically).
+7. If something looks broken, open the browser console (F12) and
+   read the error message — it usually points to the exact file
+   and line.
+8. Resize your browser window narrower (or use your browser's
+   device toolbar) to check how the change looks on mobile.
+9. Once you're happy with it, commit the change in Git:
+   git add .
+   git commit -m "Describe what you changed"
+10. Push it to GitHub:
+    git push
+
+
+============================================================
+37. IF I ASK AN AI TO MODIFY THIS PROJECT
+============================================================
+
+This project is a plain HTML/CSS/JavaScript site (no framework,
+no build step). When asking an AI coding assistant for help,
+mention that explicitly, and paste in (or point it to) data.js,
+script.js, style.css, and index.html so it can see the real
+structure rather than guessing. Below are reusable prompt
+templates.
+
+ADD A CERTIFICATE
+--------------------
+  Add a new certificate to my existing portfolio (plain HTML/
+  CSS/JS project — no framework, no build step).
+
+  Certificate name: ______
+  Issuer: ______
+  Date: ______
+  Credential ID: ______
+  Category: ______
+  Certificate file: ______
+  Verification URL: ______
+
+  Add it as a new object in the CERTIFICATES array in data.js,
+  following the exact same field names and structure as the
+  existing entries. Do not change any existing design,
+  functionality, or other certificates.
+
+ADD A PROJECT
+----------------
+  Add a new project to my existing portfolio (plain HTML/CSS/JS
+  project — no framework, no build step).
+
+  Project name: ______
+  Category: ______
+  Tagline: ______
+  Description: ______
+  Key features: ______
+  Technologies used: ______
+  GitHub URL (or "none"): ______
+  Live demo URL (or "none"): ______
+
+  Add it as a new object in the PROJECTS array in data.js,
+  following the exact same field names and structure as the
+  existing entries. Do not change any existing design,
+  functionality, or other projects.
+
+CHANGE DESIGN
+----------------
+  Change [specific design element, e.g. "the primary accent
+  color" or "the font used for headings"] in my portfolio.
+
+  This project uses plain CSS with variables defined in style.css
+  under the ":root" and "[data-theme='light']" selectors — please
+  edit those variables rather than adding new hardcoded colors/
+  fonts elsewhere in the file, so the change applies consistently
+  across the whole site. Do not change the overall layout or
+  add new dependencies/frameworks.
+
+FIX A BUG
+-----------
+  Something isn't working correctly on my portfolio:
+  [describe exactly what you see, e.g. "the certificate modal
+  doesn't close when I click the X button"]
+
+  This is a plain HTML/CSS/JS project with no framework — the
+  relevant logic is almost certainly in script.js. Please find
+  and fix the specific issue without changing unrelated
+  functionality or existing content in data.js.
+
+ADD A NEW SECTION
+---------------------
+  Add a new section called "[section name]" to my portfolio,
+  positioned [where, e.g. "between Projects and Certifications"].
+
+  This project has no framework — please follow its existing
+  pattern: content goes in a new array in data.js, the section's
+  HTML container goes in index.html (matching the style of
+  existing sections), a render function goes in script.js and is
+  called from the DOMContentLoaded listener, styling goes in
+  style.css reusing the existing CSS variables, and a link should
+  be added to both the desktop and mobile navigation menus in
+  index.html. Do not change any existing sections.
+
+
+============================================================
+PORTFOLIO MAINTENANCE CHECKLIST
+============================================================
+
+[ ] I know how to run the project.
+[ ] I know where personal information is stored.
+[ ] I know how to add certificates.
+[ ] I know how to replace certificate files.
+[ ] I know how to add projects.
+[ ] I know how to change skills.
+[ ] I know how to replace my resume.
+[ ] I know how to add images.
+[ ] I know how to change social links.
+[ ] I know how to modify colors.
+[ ] I know how to modify sections.
+[ ] I know how to deploy the website.
+[ ] I know how to update the GitHub repository.
+[ ] I know how to troubleshoot common problems.
+
+============================================================
+END OF DOCUMENTATION
+============================================================
